@@ -82,6 +82,14 @@ Percentage improvement of `pid_plus` over `pid`:
 - `jerk_cost`: **15.52%** lower
 - `total_cost`: **15.69%** lower
 
+What `pid_plus` contributes beyond baseline `pid`:
+
+- **Lookahead target blending**: uses current target plus a short horizon from `future_plan.lataccel` so control is less reactive to one-step noise.
+- **Anti-windup integral clamp**: bounds integral accumulation to avoid overshoot and slow recovery after large transient errors.
+- **Smoothed derivative term**: low-pass filters the derivative estimate to reduce noise amplification.
+- **Road-roll feedforward compensation**: adds a small corrective term from `state.roll_lataccel` to counter roll-induced disturbance earlier.
+- **Speed-aware action slew limiting**: caps per-step action change with tighter limits at higher speed, reducing jerk while preserving low-speed responsiveness.
+
 Sample rollout visualization:
 
 ![Sample rollouts](./imgs/samplerollouts.png)
