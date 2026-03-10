@@ -61,6 +61,31 @@ Competitive scores (`total_cost<100`) will be added to the leaderboard
 python eval.py --model_path ./models/tinyphysics.onnx --data_path ./data --num_segs 5000 --test_controller <insert your controller name> --baseline_controller pid
 ```
 
+## PID+ Benchmark (vs PID baseline)
+
+Using:
+
+```bash
+python3 eval.py --model_path ./models/tinyphysics.onnx --data_path ./data --num_segs 5000 --test_controller pid_plus --baseline_controller pid
+```
+
+Results:
+
+| controller | lataccel_cost | jerk_cost | total_cost |
+|---|---:|---:|---:|
+| baseline (pid) | 1.695 | 25.490 | 110.254 |
+| test (pid_plus) | 1.428 | 21.535 | 92.950 |
+
+Percentage improvement of `pid_plus` over `pid`:
+
+- `lataccel_cost`: **15.75%** lower
+- `jerk_cost`: **15.52%** lower
+- `total_cost`: **15.69%** lower
+
+Sample rollout visualization:
+
+![Sample rollouts](./imgs/samplerollouts.png)
+
 ## Changelog
 - With [this commit](https://github.com/commaai/controls_challenge/commit/fdafbc64868b70d6ec9c305ab5b52ec501ea4e4f) we made the simulator more robust to outlier actions and changed the cost landscape to incentivize more aggressive and interesting solutions.
 - With [this commit](https://github.com/commaai/controls_challenge/commit/4282a06183c10d2f593fc891b6bc7a0859264e88) we fixed a bug that caused the simulator model to be initialized wrong.
